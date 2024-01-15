@@ -45,3 +45,55 @@
 		</form>
 	</div>
 </div>
+
+<script>
+	$(document).ready(function() {
+		// 아이디 중복 확인
+		$("#loginIdCheckBtn").on('click', function() {
+			// alert("중복 확인");
+			
+			// 경고 문구 초기화
+			$("#idCheckLength").addClass("d-none");
+			$("#idCheckDuplicated").addClass("d-none");
+			$("#idCheckOk").addClass("d-none");
+			
+			let loginId = $("#loginId").val().trim();
+			if (loginId.length < 4) {
+				$("#idCheckLength").removeClass("d-none");
+				return;
+			}
+			
+			$.get("/user/is-duplicated-id", {"loginId":loginId}) // request
+			.done(function(data) {
+				// {"code":200, "is_duplicated_id":true}
+				if (data.code == 200) {
+					if (data.is_duplicated_id) { // 중복
+						$("#idCheckDuplicated").removeClass("d-none");
+					} else { // 사용 가능
+						$("#idCheckOk").removeClass("d-none");
+					}
+				} else {
+					alert(data.error_message);
+				}
+			});
+		});
+		
+		// 회원가입
+		$("#signUpForm").on('submit', function(e) {
+			e.preventDefault();
+			// alert("회원가입");
+			
+			// validation check
+			let loginId = $("#loginId").val().trim();
+			let password = $("#password").val();
+			let confirmPassword = $("#confirmPassword").val();
+			let name = $("#name").val().trim();
+			let email = $("#email").val().trim();
+			
+			if (!loginId) {
+				alert("아이디를 입력하세요.");
+				return false;
+			}
+		});
+	});
+</script>
