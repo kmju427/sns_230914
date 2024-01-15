@@ -18,4 +18,25 @@ public class UserBO {
 		return userRepository.findByLoginId(loginId);
 	}
 	
+	// 회원가입
+	// input : loginId, password, name, email / output : Integer id(pk)
+	public Integer addUser(String loginId, String password, String name, String email) {
+		UserEntity userEntity = userRepository.save(
+					UserEntity.builder()
+						.loginId(loginId)
+						.password(password)
+						.name(name)
+						.email(email)
+						.build()
+				);
+		
+		return userEntity == null ? null : userEntity.getId();
+	}
+	
+	// 로그인
+	// input : loginId, password / output : UserEntity
+	public UserEntity getUserEntityByLoginIdPassword(String loginId, String password) {
+		return userRepository.findByLoginIdAndPassword(loginId, password);
+	}
+	
 } // public class UserBO

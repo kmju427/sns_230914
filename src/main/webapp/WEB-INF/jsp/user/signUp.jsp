@@ -85,15 +85,60 @@
 			
 			// validation check
 			let loginId = $("#loginId").val().trim();
-			let password = $("#password").val();
-			let confirmPassword = $("#confirmPassword").val();
-			let name = $("#name").val().trim();
-			let email = $("#email").val().trim();
+			let password = $("input[name=password]").val();
+			let confirmPassword = $("input[name=confirmPassword]").val();
+			let name = $("input[name=name]").val().trim();
+			let email = $("input[name=email]").val().trim();
 			
 			if (!loginId) {
 				alert("아이디를 입력하세요.");
 				return false;
 			}
+			
+			if (!password || !confirmPassword) {
+				alert("비밀번호를 입력하세요.");
+				return false;
+			}
+			
+			if (password != confirmPassword) {
+				alert("비밀번호가 일치하지 않습니다.");
+				return false;
+			}
+			
+			if (!name) {
+				alert("이름을 입력하세요.");
+				return false;
+			}
+			
+			if (!email) {
+				alert("이메일을 입력하세요.");
+				return false;
+			}
+			
+			// 중복 확인 후 사용 가능한 아이디인지 확인
+			// -> idCheckOk 클래스에 d-none이 없을 때
+			if ($("#idCheckOk").hasClass('d-none')) {
+				alert("아이디 중복 확인을 다시 해주세요.");
+				return false;
+			}
+			
+			// AJAX : 화면 이동되지 않음(콜백함수에서 이동). 응답값 JSON
+			let url = $(this).attr("action"); // form 태그의 action 값
+			console.log(url);
+			let params = $(this).serialize(); // form 태그의 name 속성과 값으로 파라미터 구성
+			console.log(params);
+			
+			$.post(url, params) // request
+			.done(function(data) { // response
+				// {"code":200, "result":"성공"}
+				if (data.code == 200) {
+					alert("가입을 환영합니다. 로그인 해주세요.");
+					location.href = "/user/sign-in-view"; // 로그인 화면으로 이동
+				} else {
+					// 로직 실패
+					alert(data.error_message);
+				}
+			});
 		});
 	});
 </script>
