@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class TimelineController {
 
-	// http://localhost:8080/timeline/list-view
-	@GetMapping("/list-view")
+	// http://localhost:8080/timeline/timeline-view
+	@GetMapping("/timeline-view")
 	public String listView(Model model) {
 		model.addAttribute("viewName", "timeline/timeline");
 		

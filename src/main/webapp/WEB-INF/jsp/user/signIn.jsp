@@ -58,7 +58,7 @@
 			.done(function(data) { // response
 				if (data.result == "성공") {
 					// 로그인 성공 시 타임라인(글쓰기 보여짐) 이동
-					location.href = "/timeline/list-view";
+					location.href = "/timeline/timeline-view";
 				} else {
 					alert(data.error_message);
 				}
