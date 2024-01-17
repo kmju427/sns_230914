@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="d-flex justify-content-center">
 	<div class="contents-box">
-
 		<%-- 글쓰기 영역(로그인된 사람만 보이게) --%>
 		<c:if test="${not empty userId}">
 		<div class="write-box border rounded m-3">
