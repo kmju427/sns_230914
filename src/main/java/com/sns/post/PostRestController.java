@@ -27,13 +27,21 @@ public class PostRestController {
 			@RequestParam("file") MultipartFile file,
 			HttpSession session) {
 		// 글쓴이 번호 - session에 있는 userId를 꺼낸다.
-		int userId = (int)session.getAttribute("userId");
+		Integer userId = (Integer)session.getAttribute("userId");
 		String userLoginId = (String)session.getAttribute("userLoginId");
 		
+		Map<String, Object> result = new HashMap<>();
+		if (userId == null) { // 비로그인 상태
+			result.put("code", 500); 
+			result.put("error_message", "로그인을 ");
+			
+			return result;
+		}
+		
 		// DB insert
+		postBO.addPost(userId, userLoginId, content, file);
 		
 		// 응답값
-		Map<String, Object> result = new HashMap<>();
 		result.put("code", 200);
 		result.put("result", "성공");
 		

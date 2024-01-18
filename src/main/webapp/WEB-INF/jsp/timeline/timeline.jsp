@@ -132,6 +132,8 @@
 			
 			// 글 내용, 이미지
 			let content = $("#writeTextArea").val();
+			console.log(content);
+			
 			let fileName = $("#file").val();
 			
 			if (!fileName) {
@@ -139,23 +141,19 @@
 				return;
 			}
 			
-			// 이미지 확장자 체크
-			if (fileName) {
-				// alert("업로드할 이미지가 있습니다.");
-				let ext = fileName.split(".").pop().toLowerCase();
-				// alert(ext);
-				if (ext != "jpg" && ext != "jpeg" && ext != "png" && ext != "gif") {
-					alert("이미지 파일만 업로드할 수 있습니다.");
-					$("#file").val("");
-					return;
-				}
+			// 파일이 업로드된 경우 확장자 체크
+			let ext = fileName.split(".").pop().toLowerCase(); // 파일 경로를 '.'으로 나누고 확장자가 있는 마지막 문자열을 가져온 후 모두 소문자로 변경
+			if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+				alert("이미지 파일만 업로드할 수 있습니다.");
+				$("#file").val(""); // 파일을 비운다.
+				return;
 			}
 			
 			// form 태그를 js에서 만든다.
 			// 이미지 업로드할 때는 반드시 form 태그가 있어야 한다.
 			let formData = new FormData();
 			formData.append("content", content); // key는 name 속성과 같다. Request Parameter명
-			formData.append("file", $("#file")[0].files[0]);
+			formData.append("file", $("#file")[0].files[0]); // $('#file')[0]은 첫번째 input file 태그를 의미, files[0]는 업로드된 첫번째 파일
 			
 			// AJAX
 			$.ajax({
@@ -171,13 +169,15 @@
 				, success:function(data) {
 					if (data.code == 200) {
 						alert("게시글이 업로드 되었습니다.");
-						location.href = "/timeline/timeline-view";
+						location.reload();
+					} else if (data.code == 500) { // 비로그인일 때
+						location.href = "/user/sign-in-view";
 					} else {
 						alert(data.error_message);
 					}
 				}
 				, error:function(request, status, error) {
-					alert("게시글을 업로드하는데 실패했습니다.");
+					alert("게시글 업로드에 실패했습니다. 관리자에게 문의해주세요.");
 				}
 			});
 		});
