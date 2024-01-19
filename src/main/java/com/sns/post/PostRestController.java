@@ -21,6 +21,13 @@ public class PostRestController {
 	@Autowired
 	private PostBO postBO;
 	
+	/**
+	 * 게시글 업로드 API
+	 * @param content
+	 * @param file
+	 * @param session
+	 * @return
+	 */
 	@PostMapping("/create")
 	public Map<String, Object> create(
 			@RequestParam(value = "content", required = false) String content,
@@ -33,7 +40,7 @@ public class PostRestController {
 		Map<String, Object> result = new HashMap<>();
 		if (userId == null) { // 비로그인 상태
 			result.put("code", 500); 
-			result.put("error_message", "로그인을 ");
+			result.put("error_message", "로그인을 다시 해야합니다.");
 			
 			return result;
 		}
