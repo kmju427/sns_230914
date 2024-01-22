@@ -35,4 +35,19 @@
 		FROM
 			`comment`
 	</select>
+	
+	<!-- CardView - 게시글에 달린 댓글만 가져오기 -->
+	<select id="selectCommentListByPostId" parameterType="int" resultType="com.sns.comment.domain.Comment">
+		SELECT
+			`id`
+			,`postId`
+			,`userId`
+			,`content`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`comment`
+		WHERE
+			`postId` = #{postId}
+	</select>
 </mapper>

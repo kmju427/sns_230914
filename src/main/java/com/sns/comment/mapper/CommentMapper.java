@@ -19,4 +19,7 @@ public interface CommentMapper {
 	// input : X / output : List<Comment>
 	public List<Comment> selectCommentList();
 	
+	// input : postId / output : List<Comment>
+	public List<Comment> selectCommentListByPostId(int postId);
+	
 } // public interface CommentMapper

@@ -39,4 +39,10 @@ public class UserBO {
 		return userRepository.findByLoginIdAndPassword(loginId, password);
 	}
 	
+	// TimelineBO - 글에 해당하는 글쓴이 정보를 가져오기 위한 설정
+	// input : userId / output : UserEntity
+	public UserEntity getUserEntityById(int id) {
+		return userRepository.findById(id).orElse(null);
+	}
+	
 } // public class UserBO
