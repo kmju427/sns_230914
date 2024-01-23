@@ -45,11 +45,11 @@
 				
 				<%-- 좋아요 --%>
 				<div class="card-like m-3">
-					<a href="#" class="like-btn">
+					<a href="#" class="like-btn" data-post-id="${card.post.id}">
 						<img src="https://www.iconninja.com/files/214/518/441/heart-icon.png" width="18" height="18" alt="empty heart">
 					</a>
 					
-					좋아요 13개
+					좋아요 ${card.likeCount}개
 				</div>
 				
 				<%-- 글 --%>
@@ -72,10 +72,12 @@
 						<span class="font-weight-bold">${commentView.user.loginId}</span>
 						<span>${commentView.comment.content}</span>
 						
-						<%-- 댓글 삭제 버튼 --%>
+						<%-- 댓글 삭제 버튼(자신의 댓글만 삭제 버튼 노출) --%>
+						<c:if test="${userId eq commentView.comment.userId}">
 						<a href="#" class="comment-del-btn" data-comment-id="${commentView.comment.id}">
 							<img src="https://www.iconninja.com/files/603/22/506/x-icon.png" width="10" height="10">
 						</a>
+						</c:if>
 					</div>
 					<%-- </c:if> --%>
 					</c:forEach>
@@ -239,16 +241,59 @@
 		});
 		
 		// 댓글 삭제
-		$(".comment-del-btn").on("click", function() {
+		$(".comment-del-btn").on("click", function(e) {
 			// alert("댓글 삭제");
+			e.preventDefault(); // 삭제된 후 페이지 맨 위로 올라가는 것 방지
+			
 			let commentId = $(this).data("comment-id");
 			// alert(commentId);
 			
 			$.ajax({
 				// request
+				type:"DELETE"
+				, url:"/comment/delete"
+				, data:{"commentId":commentId}
 				
 				// response
+				, success:function(data) {
+					if (data.code == 200) {
+						location.reload(true);
+					} else {
+						alert(data.error_message);
+					}
+				}
+				, error:function(request, status, error) {
+					alert("댓글 삭제하는데 실패했습니다.");
+				}
+			});
+		});
+		
+		// 좋아요 토글
+		$(".like-btn").on('click', function(e) {
+			// alert("좋아요 클릭");
+			e.preventDefault(); // 좋아요 버튼 클릭 후 맨 위로 올라가는 것 방지
+			
+			let postId = $(this).data("post-id");
+			// alert(postId);
+			
+			$.ajax({
+				// request
+				url:"/like/" + postId
 				
+				// response
+				, success:function(data) {
+					if (data.code == 200) {
+						// 성공
+						location.reload(true); // 새로고침 -> timeline view 화면
+					} else if (data.code == 300) {
+						// 비로그인 시 로그인 페이지로 이동
+						alert(data.error_message);
+						location.href = "/user/sign-in-view";
+					}
+				}
+				, error:function(request, status, error) {
+					alert("좋아요를 하는데 실패했습니다.");
+				}
 			});
 		});
 	});

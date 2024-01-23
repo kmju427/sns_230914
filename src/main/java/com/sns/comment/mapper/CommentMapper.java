@@ -22,4 +22,7 @@ public interface CommentMapper {
 	// input : postId / output : List<Comment>
 	public List<Comment> selectCommentListByPostId(int postId);
 	
+	// input : commentId / output : X
+	public void deleteCommentById(int id);
+	
 } // public interface CommentMapper
