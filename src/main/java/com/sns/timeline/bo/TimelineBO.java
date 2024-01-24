@@ -30,8 +30,8 @@ public class TimelineBO {
 	@Autowired
 	private LikeBO likeBO;
 
-	// input : X / output : List<CardView>
-	public List<CardView> generateCardViewList() {
+	// input : userId(비로그인 : null, 로그인 : userId) / output : List<CardView>
+	public List<CardView> generateCardViewList(Integer userId) {
 		List<CardView> cardViewList = new ArrayList<>();
 		
 		// 글 목록을 가져온다. List<PostEntity>
@@ -59,8 +59,8 @@ public class TimelineBO {
 			cardView.setLikeCount(likeCount);
 			
 			// 로그인된 사람이 좋아요를 눌렀는지의 여부(비로그인 사용자 고려)
-			//boolean filledLike = likeBO.getLikeCountByPostIdUserId(post.getId(), ); -> userId 어떻게 부를지 고민
-			//cardView.setFilledLike(filledLike);
+			boolean filledLike = likeBO.getLikeCountByPostIdUserId(post.getId(), userId); 
+			cardView.setFilledLike(filledLike);
 			
 			// ★★★ 마지막에 cardView를 List에 넣는다.
 			cardViewList.add(cardView);

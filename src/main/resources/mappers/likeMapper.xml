@@ -4,6 +4,7 @@
  
 <mapper namespace="com.sns.like.mapper.LikeMapper">
 	<!-- 로그인된 유저의 해당 게시글에 대한 좋아요 클릭 여부 -->
+	<!-- 
 	<select id="selectLikeCountByPostIdUserId" parameterType="map" resultType="int">
 		SELECT 
 			COUNT(1)
@@ -12,6 +13,20 @@
 		WHERE
 			`postId` = #{postId}
 			AND `userId` = #{userId}
+	</select>
+	-->
+	
+	<!-- likeCount 쿼리 하나로 합치기 -->
+	<select id="selectLikeCountByPostIdOrUserId" parameterType="map" resultType="int">
+		SELECT 
+			COUNT(1)
+		FROM
+			`like`
+		WHERE
+			`postId` = #{postId}
+			<if test="userId != null">
+			AND `userId` = #{userId}
+			</if>
 	</select>
 	
 	<!-- 좋아요 취소 -->
@@ -40,6 +55,7 @@
 	</insert>
 	
 	<!-- 해당 게시글에 대한 좋아요 개수 -->
+	<!--
 	<select id="selectLikeCountByPostId" parameterType="int" resultType="int">
 		SELECT 
 			COUNT(1)
@@ -48,4 +64,5 @@
 		WHERE
 			`postId` = #{postId}
 	</select>
+	-->
 </mapper>
