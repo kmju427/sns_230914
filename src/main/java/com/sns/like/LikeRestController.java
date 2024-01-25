@@ -36,7 +36,7 @@ public class LikeRestController {
 		Integer userId = (Integer)session.getAttribute("userId");
 		  
 		if (userId == null) { 
-			result.put("code", 500); 
+			result.put("code", 300); 
 			result.put("error_message","로그인을 해주세요."); 
 			return result; 
 		}

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,6 +50,23 @@ public class PostRestController {
 		postBO.addPost(userId, userLoginId, content, file);
 		
 		// 응답값
+		result.put("code", 200);
+		result.put("result", "성공");
+		
+		return result;
+	}
+	
+	@DeleteMapping("/delete")
+	public Map<String, Object> delete(
+			@RequestParam("postId") int postId,
+			HttpSession session) {
+		// 세션에서 필요한 값을 가져온다.
+		int userId = (int)session.getAttribute("userId");
+		
+		// DB delete
+		
+		// 응답값
+		Map<String, Object> result = new HashMap<>();
 		result.put("code", 200);
 		result.put("result", "성공");
 		
