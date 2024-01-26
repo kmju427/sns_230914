@@ -353,7 +353,7 @@
 				// response
 				, success:function(data) {
 					if (data.code == 200) {
-						location.reload();
+						location.reload(true);
 					} else {
 						alert(data.error_message);
 					}

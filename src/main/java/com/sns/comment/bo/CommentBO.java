@@ -63,4 +63,9 @@ public class CommentBO {
 		commentMapper.deleteCommentById(id);
 	}
 	
+	// input : postId / output : X
+	public void deleteCommentsByPostId(int postId) {
+		commentMapper.deleteCommentsByPostId(postId);
+	}
+	
 } // public class CommentBO

@@ -59,4 +59,13 @@
 		WHERE
 			`id` =  #{id}
 	</delete>
+	
+	<!-- 글 삭제할 때 해당 글에 달린 댓글들 삭제 -->
+	<delete id="deleteCommentsByPostId" parameterType="int">
+		DELETE
+		FROM
+			`comment`
+		WHERE
+			`postId` = #{postId}
+	</delete>
 </mapper>

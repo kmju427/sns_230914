@@ -65,4 +65,13 @@
 			`postId` = #{postId}
 	</select>
 	-->
+	
+	<!-- 글 삭제할 때 해당 글에 눌려진 좋아요 삭제 -->
+	<delete id="deleteLikeByPostId" parameterType="int">
+		DELETE
+		FROM
+			`like`
+		WHERE
+			`postId` = #{postId}
+	</delete>
 </mapper>
