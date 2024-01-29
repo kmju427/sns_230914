@@ -34,7 +34,7 @@ public class UserController {
 	}
 	
 	/**
-	 * 로그아웃
+	 * 로그아웃 API
 	 * @param session
 	 * @return
 	 */
